@@ -1,0 +1,51 @@
+import turtle
+import random
+screen = turtle.Screen()
+screen.setup(700, 700)
+# pen = turtle.Turtle()
+
+
+#making the question
+def question():
+    pen = turtle.Turtle()
+    number = random.randint(1, 100)
+    pen.up()
+    pen.goto(-20,300)
+    pen.write(f"Is {number} even or odd?",align="center", font=("Arial", 40, "bold"))
+
+
+question()
+
+def button_text(x, y, text):
+    ans_for_the_odd_square=turtle.Turtle()
+    ans_for_the_odd_square.color("white")
+    ans_for_the_odd_square.up()
+    ans_for_the_odd_square.goto(x,y)
+    ans_for_the_odd_square.write(text, align="center", font=("Arial", 40))
+#the odd and even box
+
+def button(x, y, text):
+    odd_square = turtle.Turtle()
+    odd_square.shape("square")
+    odd_square.up()
+    odd_square.goto(x,y)
+    odd_square.down()
+    odd_square.shapesize(stretch_wid=3, stretch_len=8)
+    button_text(x, y-10, text)
+
+
+
+button(-200,0, "odd")
+button(200,0, "even")
+
+
+
+
+
+
+
+
+
+
+
+screen.exitonclick()
