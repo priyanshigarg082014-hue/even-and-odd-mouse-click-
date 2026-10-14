@@ -1,51 +1,106 @@
+
+import time
 import turtle
 import random
 screen = turtle.Screen()
 screen.setup(700, 700)
 # pen = turtle.Turtle()
 
+pen = turtle.Turtle()
+number = 0
+pen.up()
+pen.goto(-20,300)
+score=0
 
-#making the question
-def question():
-    pen = turtle.Turtle()
+def write_question():
+    global number
     number = random.randint(1, 100)
-    pen.up()
-    pen.goto(-20,300)
-    pen.write(f"Is {number} even or odd?",align="center", font=("Arial", 40, "bold"))
+    pen.clear()
+    pen.write(f"Is {number} even or odd?", align="center", font=("Arial", 40, "bold"))
+
+write_question()
+
+output = turtle.Turtle()
+output.hideturtle()
+output.up()
+output.goto(0, -200)
+
+correct_answer_text  = turtle.Turtle()
+correct_answer_text.hideturtle()
+correct_answer_text.up()
+correct_answer_text.goto(-100, -300)
+correct_answer_text.color("blue")
+
+#
+def check_answer(answer):
+    global score
+    even = number%2
+
+    correct_answer = ""
+    if even==0:
+        correct_answer = "even"
+    else:
+        correct_answer = "odd"
+
+    output.clear()
+    if answer == correct_answer:
+        correct_answer_text.clear()
+        score += 1
+        output.color("green")
+        output.write(f"Correct!", align="center", font=("Arial", 40))
+        correct_answer_text.write(f"you score: {score}", align="center", font=("Arial", 40))
+    else:
+
+        output.color("red")
+        output.write(f"Wrong!", align="center", font=("Arial", 40))
+
+def click_odd(x, y):
+    check_answer("odd")
+    time.sleep(1)
+    output.clear()
+    write_question()
+
+def click_even(x, y):
+    check_answer("even")
+    time.sleep(1)
+    output.clear()
+    write_question()
+
+def click_reset(x, y):
+    global score
+    score=0
+    correct_answer_text.clear()
+    correct_answer_text.write(f"you score: {score}", align="center", font=("Arial", 40))
 
 
-question()
 
-def button_text(x, y, text):
+
+def button_text(x, y, text, color):
     ans_for_the_odd_square=turtle.Turtle()
-    ans_for_the_odd_square.color("white")
+    ans_for_the_odd_square.color(color)
     ans_for_the_odd_square.up()
     ans_for_the_odd_square.goto(x,y)
     ans_for_the_odd_square.write(text, align="center", font=("Arial", 40))
-#the odd and even box
-
-def button(x, y, text):
-    odd_square = turtle.Turtle()
-    odd_square.shape("square")
-    odd_square.up()
-    odd_square.goto(x,y)
-    odd_square.down()
-    odd_square.shapesize(stretch_wid=3, stretch_len=8)
-    button_text(x, y-10, text)
-
-
-
-button(-200,0, "odd")
-button(200,0, "even")
-
-
-
+# #the odd and even box
+#
+def create_button(x, y, text, click):
+    button = turtle.Turtle()
+    button.shape("square")
+    button.up()
+    button.goto(x,y)
+    button.down()
+    button.shapesize(stretch_wid=3, stretch_len=8)
+    button.onclick(click)
+    button_text(x, y - 10, text, "white")
+#
+#
+create_button(-200,0, "odd", click_odd)
+create_button(200,0, "even", click_even)
+create_button(-40,100, "reset", click_reset)
 
 
 
 
 
 
-
-
-screen.exitonclick()
+screen.mainloop()
